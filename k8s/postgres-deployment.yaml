@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            # Đây chính là tên (claimName) option storage mà chúng ta chọn. nó sẽ tìm tệp option và map với option nào có tên giống
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              # mount thư mục nào vào trong storage, bất kì dữ liệu nào được tạo ra trong thư mục này sẽ được backup lại vào volume
+              mountPath: /var/lib/postgresql/data
+              # subPath: là tên của thư mục trong volume, nó sẽ giúp chúng ta truy cập dữ liệu dễ dàng hơn.
+              subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
