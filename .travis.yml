@@ -8,9 +8,14 @@ before_install:
   - gcloud components update kubectl
   - gcloud version
   - gcloud auth activate-service-account --key-file service-account.json
+  - gcloud config set project simple-k8s-298904
+  - gcloud config set compute/zone asia-east1-a
+  - gcloud container clusters get-credentials cluster-1
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - echo tests pass
+  - docker run -e CI=true hieple/multi-client npm test
   # - docker run stephengrider/react-test npm test -- --coverage
 
 deploy:
