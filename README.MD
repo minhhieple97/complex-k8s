@@ -1,8 +1,8 @@
-Khi chúng ta chạy "minikube start" nó sẽ chạy một VM trên máy, và mỗi VM này trong Kubernetes chúng ta coi nó như một Node và Kubernetes sẽ sử dụng các node này để chạy các object mà chúng ta tạo ra ở các file config
-=> Khi chúng ta tạo các file config chúng ta sẽ đẩy nó cho Kuberctl (chính xác hơn thì là đẩy cho master) và master của Kubectl sẽ chạy các file này trong Node
+Khi chúng ta chạy "minikube start" nó sẽ chạy một VM (có thể chạy nhiều hơn VM nhưng mặc định là 1) trên máy, và mỗi VM này trong Kubernetes chúng ta coi nó như một Node và Kubernetes sẽ sử dụng các node này để chạy các object mà chúng ta tạo ra ở các file config
+=> Khi chúng ta tạo các file config chúng ta sẽ đẩy nó cho Kuberctl (chính xác hơn thì là đẩy cho master) và master của Kubectl sẽ chạy các file này trong Node, toàn bộ quá trình này diễn ra trong Kubernetes Cluster (là tập hợp các Nodes + Master để quản lý các Nodes)
 
 - Với mỗi file config chúng ta viết nó sẽ tạo ra các đối tượng (Objects)
-- Các đối tượng phục vụ nhiều mục đích khác nhau như chạy một container, monitor container, thiết lập network...
+- Các đối tượng phục vụ nhiều mục đích khác nhau như chạy một container (container ở đấy chính là container trong Docker), monitor container, thiết lập network...
   apiVersion:v1
 
 - Giá trị của apiVersion sẽ xác định chúng ta được quyền sử dụng giá trị nào của object.
@@ -13,7 +13,7 @@ Object Types
 
 * Hãy tưởng tượng VM chạy như một node, node sẽ được sử dụng bởi Kubernetes để chạy một số object khác nhau
 * Một trong những object cơ bản nhất của Kubernetes là Pod (kind : Pod)
-* Bản thân Pod được coi như một nhóm các container và POd cũng là đơn vị nhỏ nhất trong Kubernetes mà chúng ta cần khởi tạo nếu muốn chạy một container. sở dĩ Pod coi như một nhóm các container bởi vì trong Kubernetes không chạy các container riêng lẻ với nhau, đơn vị bé nhất mà chúng ta có thể triển khai trên Kubernetes là một nhóm (hiểu là 1 Pod)
+* Bản thân Pod được coi như một nhóm các container và Pod cũng là đơn vị nhỏ nhất trong Kubernetes mà chúng ta cần khởi tạo nếu muốn chạy một container. sở dĩ Pod coi như một nhóm các container bởi vì trong Kubernetes không chạy các container riêng lẻ với nhau, đơn vị bé nhất mà chúng ta có thể triển khai trên Kubernetes là một nhóm (hiểu là 1 Pod)
 * Mục đích phổ biến của Pod là nhóm các container có nhiệm vụ giống nhau, có mối quan hệ chặt chẽ với nhau
   VD: Chúng ta có 3 container là postgres + logger + backup-manager trong trường hợp này postgress là Primary Container còn Logger + Backup-manager (Support Container)
   3 container này có thể ở trong cùng 1 Pod do chúng có mối quan hệ chặt chẽ với nhau bởi vì nếu Primary container gặp sự cố Support Container sẽ ngừng hoạt động.
@@ -21,7 +21,7 @@ Object Types
 
 - Service
 
-* Service cũng là một object trong Kubernetes, chúng ta thường sử dụng Service khi cần setup networking bên trong Kubernetes Cluster
+* Service cũng là một object trong Kubernetes, chúng ta thường sử dụng Service khi cần setup networking bên trong Kubernetes Cluster hiểu đơn giản thì nó phụ trách việc giao tiếp giữa các pods trong Kubernetes Cluster
 
 * Trong Service còn có thêm 4 Subtype (object) là
 
@@ -103,8 +103,8 @@ Object Types
   ports: - containerPort: 3000
 
 => Mỗi minikube như một VM và nó sẽ có địa chỉ IP riêng.
-=> Chúng ta muốn truy cập vào các pods thì cần phải thông qua service
-=> Mỗi Pod cũng sẽ có IP riêng (tất nhiên nó vẫn thuộc IP trong Minikube)
+=> Chúng ta muốn truy cập vào các pods thì cần phải thông qua Service (nó cũng là một loại Object giống như Pods...)
+=> Mỗi Pod cũng sẽ có IP riêng (tất nhiên nó vẫn thuộc dải IP trong Minikube)
 
 => Volume Object: Là một loại object cho phép các container lưu trữ data ở pod level, lợi ích
 của Volume Object trong Kubernetes đó là nếu một container trong pod đó chết , pod sẽ tự động tạo ra một container mới, container này có quyền truy cập vào vào VolumeObject từ đó có được các data của container đã chết, Tuy nhiên nó có nhược điểm là nếu pod chết thì Volume cũng chết.
