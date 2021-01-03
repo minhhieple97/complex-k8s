@@ -43,7 +43,7 @@ Object Types
 
   nodePort: đây là port cho phép chúng ta user kiểm tra (có thể sử dụng bằng trình duyệt) Pod (multiclient) tức là chúng ta kiểm tra Pod(multiclient) thông qua service bằng nodePort, nếu chúng ta không chỉ định nodePort thì nó sẽ được sinh ra ngẫu nhiên,
 
-  để dễ hiểu thì luồng sẽ chạy giống như thế này :
+  để dễ hiểu thì luồng sẽ chạy giống như thế này, traffic sẽ đi qua nodePort (Object Service) => targetPort(Object Pod multi-client) :
 
   browser => nodePort => targetPort => Pod(multiclient)
 
