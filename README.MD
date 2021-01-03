@@ -25,11 +25,11 @@ Object Types
 
 * Trong Service còn có thêm 4 Subtype (object) là
 
-- ClusterIP : cho phép truy cập tập hợp các pod từ object khác trong Cluster .
+- ClusterIP : Nó thiết lập một đường dẫn dễ nhớ cho phép truy cập một cách dễ dàng hơn tập hợp các pod từ object khác trong Cluster.
 - NodePort: nó mở quyền truy cập tập hợp các pod cho thế giới bên ngoài (chỉ phù hợp ở môi trường development)
 
-- LoadBalancer: Là cách cũ để có thể điều hướng các traffict vào trong cluster
-- Ingress: Mở quyền truy cập tập hợp ở services ra ngoài, mục đích khá giống với LoadBalancer, hiểu đơn giản chúng ta tạo các tập yaml để cấu hình cho ingres xử lý việc routing theo mong muốn và đẩy nó là Ingres Controller, Ingres Controller sẽ xem xét current state và dựa vào tập cấu hình để việc routing được như ý muốn.
+- LoadBalancer: Nó là cho pod có thể truy cập có thể truy cập được từ bên ngoài Cluster Là cách cũ để có thể điều hướng các traffict vào trong cluster
+- Ingress: Mở quyền truy cập tập hợp ở services ra ngoài, mục đích khá giống với LoadBalancer, hiểu đơn giản chúng ta tạo các tập yaml để cấu hình cho ingres xử lý việc routing theo mong muốn và đẩy nó là Ingres Controller, Ingres Controller sẽ xem xét current state và dựa vào tập cấu hình để để điều chỉnh current state từ đó có thể routing được như ý muốn.
 
 - Giải thích
   spec:
